@@ -1,0 +1,15 @@
+version: "3.0"
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: [ "nginx", "-c", "/etc/nginx/nginx.conf", "-g", "daemon off;" ]
+    container_name: react-web-app        # 指定容器的名称
+    image: matias/web:2                   # 指定镜像和版本，如果不存在就会build
+    restart: always
+    ports: 
+      - "127.0.0.1:3000:80"
+    # command: nginx -c /etc/nginx/nginx.conf #这行代码解决无法访问的问题
+    tty: true # tty:true 防止启动之后直接退出，有时候这样也不行，需要再增加一个command:/bin/bash，命令不一定是这个，需要是一个不会退出的命令，然后用-d后台启动容器。
